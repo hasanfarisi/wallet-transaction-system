@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_22_071338) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_22_101922) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,6 +21,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_22_071338) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_topup_histories_on_user_id"
+  end
+
+  create_table "transfer_histories", force: :cascade do |t|
+    t.integer "amount"
+    t.integer "user_id"
+    t.integer "target_user_id"
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["target_user_id"], name: "index_transfer_histories_on_target_user_id"
+    t.index ["user_id"], name: "index_transfer_histories_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
