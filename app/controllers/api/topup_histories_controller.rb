@@ -33,6 +33,12 @@ class Api::TopupHistoriesController < ApplicationController
     end
   end
 
+  def show_topup_histories
+    user_id = User.find_by_id(current_user_id)
+
+    topup_histories = TopupHistory.where(user_id: user_id)
+    return render json: {data: topup_histories}
+  end
 
   private
   def topup_params

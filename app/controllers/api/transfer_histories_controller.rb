@@ -50,4 +50,10 @@ class Api::TransferHistoriesController < ApplicationController
     end
   end
 
+  def show_transfer_histories
+    user_id = User.find_by_id(current_user_id)
+
+    transfer_histories = TransferHistory.where(user_id: user_id)
+    return render json: {data: transfer_histories}
+  end
 end

@@ -5,7 +5,10 @@ Rails.application.routes.draw do
     get '/profile', to: 'users#show_profile'
 
     post '/topup', to: 'topup_histories#topup', as: 'topup'
+    get '/topup/history', to: 'topup_histories#show_topup_histories', as: 'topup_histories'
+
     post '/transfer', to: 'transfer_histories#transfer', as: 'transfer'
+    get '/transfer/history', to: 'transfer_histories#show_transfer_histories', as: 'transfer_histories'
 
     get '/price/:symbol', to: 'stocks#price'
     get '/prices', to: 'stocks#prices'
