@@ -1,8 +1,8 @@
 # app/helpers/authentication_helper.rb
 module AuthenticationHelper
   def authenticate_request!
-    if !request.headers['Authorization']
-      return render json: {status: 500, error: 'Invalid token'}
+    if !request.headers['Authorization'] or request.headers['Authorization'].nil?
+      return render json: {error: 'Invalid token'}, status: 500
     end
     token = request.headers['Authorization'].split(' ').last
 
@@ -22,10 +22,9 @@ module AuthenticationHelper
 
   def current_user_id
     token = request.headers['Authorization'].split(' ').last
-
-    decoded_token = JWT.decode(token, Rails.application.secrets.secret_key_base)
-    decoded_token[0]['user_id']
-  rescue JWT::DecodeError => e
-    nil
+    if token.present?
+      decoded_token = JWT.decode(token, Rails.application.secrets.secret_key_base)
+      decoded_token[0]['user_id']
+    end
   end
 end
