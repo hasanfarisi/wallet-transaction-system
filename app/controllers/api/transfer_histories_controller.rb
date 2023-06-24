@@ -16,6 +16,10 @@ class Api::TransferHistoriesController < ApplicationController
         return render json: { error: "Target cannot be empty" }
       end
 
+      if user_id == target_user_id
+        return render json: {error: "You cannot transfer money to yourself"}
+      end
+
       user = User.find_by_id(user_id)
 
       unless user.wallet
