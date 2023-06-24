@@ -4,13 +4,13 @@ class Api::StocksController < ApplicationController
   def price
     symbol = params[:symbol]
     price = latest_stock_price.price(symbol)
-    render json: { symbol: symbol, price: price }
+    render json: { data:{symbol: symbol, price: price} }
   end
 
   def prices
     symbols = params[:symbols]
     prices = latest_stock_price.prices(symbols)
-    render json: prices
+    render json: {data: prices}
   end
 
   def price_all
