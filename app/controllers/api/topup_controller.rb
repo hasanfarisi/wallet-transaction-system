@@ -1,4 +1,4 @@
-class Api::TopupHistoriesController < ApplicationController
+class Api::TopupController < ApplicationController
   before_action :authenticate_request!
 
   def topup
@@ -21,12 +21,12 @@ class Api::TopupHistoriesController < ApplicationController
         wallet = user.wallet
         wallet.update(balance: wallet.balance + amount)
 
-        new_topup = TopupHistory.create(user_id: user_id, amount: amount, status: status)
+        new_topup = Topup.create(user_id: user_id, amount: amount, status: status)
         unless new_topup.persisted?
           raise ActiveRecord::Rollback
         end
 
-        render json: { data: new_topup }
+        render json: { data: new_topup.attributes.except('target_user_id') }
       end
     rescue StandardError => e
       render json: { error: e.message }, status: 500
@@ -36,8 +36,9 @@ class Api::TopupHistoriesController < ApplicationController
   def show_topup_histories
     user_id = User.find_by_id(current_user_id)
 
-    topup_histories = TopupHistory.where(user_id: user_id)
-    return render json: {data: topup_histories}
+    topup_histories = Topup.where(user_id: user_id)
+    data = topup_histories.map { |topup| topup.attributes.except('target_user_id') }
+    return render json: { data: data }
   end
 
   private
