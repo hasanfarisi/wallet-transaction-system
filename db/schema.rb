@@ -10,28 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_22_101922) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_26_014733) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "topup_histories", force: :cascade do |t|
-    t.integer "amount"
-    t.integer "user_id"
-    t.string "status"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_topup_histories_on_user_id"
-  end
-
-  create_table "transfer_histories", force: :cascade do |t|
-    t.integer "amount"
-    t.integer "user_id"
+  create_table "transaction_histories", force: :cascade do |t|
+    t.string "type", null: false
+    t.integer "amount", null: false
+    t.integer "user_id", null: false
     t.integer "target_user_id"
-    t.string "status"
+    t.string "status", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["target_user_id"], name: "index_transfer_histories_on_target_user_id"
-    t.index ["user_id"], name: "index_transfer_histories_on_user_id"
+    t.index ["status"], name: "index_transaction_histories_on_status"
+    t.index ["type"], name: "index_transaction_histories_on_type"
+    t.index ["user_id"], name: "index_transaction_histories_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -48,6 +41,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_22_101922) do
     t.integer "balance"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "label"
     t.index ["user_id"], name: "index_wallets_on_user_id"
   end
 
