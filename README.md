@@ -52,12 +52,13 @@ Response:
 ```json
 {
     "data": {
-        "id": 1,
+        "id": 11,
+        "type": "Topup",
         "amount": 10000,
         "user_id": 1,
         "status": "success",
-        "created_at": "2023-06-24T07:42:13.466Z",
-        "updated_at": "2023-06-24T07:42:13.466Z"
+        "created_at": "2023-06-26T04:02:10.701Z",
+        "updated_at": "2023-06-26T04:02:10.701Z"
     }
 }
 ```
@@ -68,7 +69,7 @@ POST # /api/transfer
 
 {
     "amount": 1000,
-    "target_user_id": 4
+    "target_user_id": 2
 }
 ```
 
@@ -77,12 +78,13 @@ Response:
 {
     "data": {
         "id": 1,
+        "type": "Transfer",
         "amount": 1000,
         "user_id": 1,
         "target_user_id": 2,
         "status": "success",
-        "created_at": "2023-06-24T07:42:47.735Z",
-        "updated_at": "2023-06-24T07:42:47.735Z"
+        "created_at": "2023-06-26T04:03:35.617Z",
+        "updated_at": "2023-06-26T04:03:35.617Z"
     }
 }
 ```
