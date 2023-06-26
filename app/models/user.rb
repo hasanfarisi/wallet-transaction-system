@@ -1,9 +1,11 @@
 require 'jwt'
 class User < ApplicationRecord
 
-  has_many :topup_histories, foreign_key: :user_id
+  has_many :topup, foreign_key: :user_id
+  has_many :transfer, foreign_key: :user_id
+  has_many :transaction_histories, foreign_key: :user_id
   has_one :wallet, foreign_key: :user_id
-  has_many :transfer_histories, foreign_key: :user_id
+
 
   def self.authenticate(username, password)
     user = find_by(username: username)

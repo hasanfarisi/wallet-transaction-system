@@ -1,4 +1,4 @@
-class Api::TransferHistoriesController < ApplicationController
+class Api::TransferController < ApplicationController
   before_action :authenticate_request!
 
   def transfer
@@ -42,12 +42,12 @@ class Api::TransferHistoriesController < ApplicationController
         target_wallet = target_user.wallet
         target_wallet.update(balance: target_wallet.balance + amount)
 
-        new_transfer = TransferHistory.create(user_id: user_id, target_user_id: target_user_id, amount: amount, status: status)
+        new_transfer = Transfer.create(user_id: user_id, target_user_id: target_user_id, amount: amount, status: status)
         unless new_transfer.persisted?
           raise ActiveRecord::Rollback
         end
 
-        render json: { data: new_transfer }
+        render json: { data: new_transfer.attributes }
       end
     rescue StandardError => e
       render json: { error: e.message }, status: 500
@@ -57,7 +57,7 @@ class Api::TransferHistoriesController < ApplicationController
   def show_transfer_histories
     user_id = User.find_by_id(current_user_id)
 
-    transfer_histories = TransferHistory.where(user_id: user_id)
+    transfer_histories = Transfer.where(user_id: user_id)
     return render json: {data: transfer_histories}
   end
 end
